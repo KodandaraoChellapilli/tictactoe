@@ -21,8 +21,6 @@ const makeComputerMove = (board: BoardArray): [number, number] => {
 
 const checkWinner = (board: BoardArray): string | null => {
   const lines = [
-    // we have 8 lines to check for a winner
-
     // 3 rows
     [board[0][0], board[0][1], board[0][2]],
     [board[1][0], board[1][1], board[1][2]],
@@ -54,9 +52,10 @@ const TicTacToe = () => {
 
   const [player, setPlayer] = useState<string>("X");
   const [winner, setWinner] = useState<string | null>(null);
+  const [isDraw, setIsDraw] = useState<boolean>(false);
 
   const handleOnClick = (row: number, col: number) => {
-    if (board[row][col] || winner) {
+    if (board[row][col] || winner || isDraw) {
       return;
     }
 
@@ -70,6 +69,17 @@ const TicTacToe = () => {
 
     const newWinner = checkWinner(updatedPlayerBoard);
     setWinner(newWinner);
+
+    // Check if the board is full (no empty cells)
+    const hasNullValue = updatedPlayerBoard.some((row) =>
+      row.some((cell) => cell === null)
+    );
+
+    if (!newWinner && !hasNullValue) {
+      setIsDraw(true);
+      return;
+    }
+
     setPlayer("X");
 
     if (!newWinner) {
@@ -91,7 +101,8 @@ const TicTacToe = () => {
     <div>
       <h1 className="game">Tic Tac Toe</h1>
       <Board board={board} handleClick={handleOnClick} />
-      <p>{winner && `${winner === "X" ? "you win" : "you lose"}`}</p>
+      {winner && <p>{winner === "X" ? "You win!" : "You lose!"}</p>}
+      {isDraw && <p>It's a draw!</p>}
     </div>
   );
 };

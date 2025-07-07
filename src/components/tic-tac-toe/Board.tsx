@@ -1,6 +1,6 @@
 import React from "react";
-
 import "./tic-tac-toe.sass";
+
 type BoardProps = {
   board: Array<Array<string | null>>;
   handleClick: (row: number, col: number) => void;

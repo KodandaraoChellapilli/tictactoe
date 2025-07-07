@@ -91,6 +91,7 @@ const TicTacToe = () => {
     <div>
       <h1 className="game">Tic Tac Toe</h1>
       <Board board={board} handleClick={handleOnClick} />
+      <p>{winner && `${winner === "X" ? "you win" : "you lose"}`}</p>
     </div>
   );
 };
